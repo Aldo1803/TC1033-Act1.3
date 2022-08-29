@@ -91,11 +91,44 @@ string stringEntry(Entry e) {
     return ss.str();
 }
 
-void printEntries(vector<Entry> entries) {
+void printEntries(vector<Entry> entries, ofstream& out) {
     for (int i = 0; i < entries.size(); i++) {
-        printEntry(entries[i]);
+        out << stringEntry(entries[i]) << endl;
     }
 }
+
+bool isEarlier(Entry e1, Entry e2) {
+    if (e1.month < e2.month) return true;
+    if (e1.month > e2.month) return false;
+    if (e1.day < e2.day) return true;
+    if (e1.day > e2.day) return false;
+    if (e1.hour < e2.hour) return true;
+    if (e1.hour > e2.hour) return false;
+    if (e1.minute < e2.minute) return true;
+    if (e1.minute > e2.minute) return false;
+    if (e1.second < e2.second) return true;
+    return false;
+}
+
+vector<string> split(string s, char delimiter) {
+    vector<string> tokens;
+    string token;
+    stringstream ss(s);
+    while (getline(ss, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
+string toLowerCase(string s) {
+    string lowerCase = "";
+    for (int i = 0; i < s.length(); i++) {
+        lowerCase += tolower(s[i]);
+    }
+    return lowerCase;
+}
+
+
 
 
 
