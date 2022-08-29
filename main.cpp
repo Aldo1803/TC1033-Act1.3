@@ -184,11 +184,121 @@ void mergeSort(vector<Entry>& v, int l, int r) {
     }
 }
 
+// Search algorithms
+int lowerIndexQuery(vector<Entry>& v, Entry e) {
+    int low = 0;
+    int high = v.size() - 1;
+    int mid;
+    while (low <= high) {
+        mid = (low + high) / 2;
+        if (isEarlier(v[mid], e)) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return low;
+}
+
+int upperIndexQuery(vector<Entry>& v, Entry e) {
+    int low = 0;
+    int high = v.size() - 1;
+    int mid;
+    while (low <= high) {
+        mid = (low + high) / 2;
+        if (isEarlier(e, v[mid])) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    return low;
+}
+
+string queryDates(vector<Entry>& v, Entry e) {
+    int low = lowerIndexQuery(v, e);
+    int high = upperIndexQuery(v, e);
+    stringstream ss;
+    for (int i = low; i <= high; i++) {
+        ss << stringEntry(v[i]) << endl;
+    }
+    return ss.str();
+}
+
+string queryIPs(vector<Entry>& v, Entry e) {
+    int low = lowerIndexQuery(v, e);
+    int high = upperIndexQuery(v, e);
+    stringstream ss;
+    for (int i = low; i <= high; i++) {
+        ss << stringEntry(v[i]) << endl;
+    }
+    return ss.str();
+}
+
+// Utility functions
+
+void printVector(vector<Entry> v) {
+    for (int i = 0; i < v.size(); i++) {
+        printEntry(v[i]);
+    }
+}
+
+void displayMenu() {
+    cout << "1. Read log file" << endl;
+    cout << "2. Print log file" << endl;
+    cout << "3. Print log file sorted by date" << endl;
+    cout << "4. Print log file sorted by IP" << endl;
+    cout << "5. Search log file by date" << endl;
+    cout << "6. Search log file by IP" << endl;
+    cout << "7. Exit" << endl;
+}
+
+void fetchQuery(vector<Entry>& v, Entry e) {
+    string query;
+    cout << "Enter query: ";
+    cin >> query;
+    if (query == "1") {
+        cout << queryDates(v, e) << endl;
+    } else if (query == "2") {
+        cout << queryIPs(v, e) << endl;
+    } else {
+        cout << "Invalid query" << endl;
+    }
+}
+
+void menu(vector<Entry>& v) {
+    int choice;
+    do {
+        displayMenu();
+        cout << "Enter choice: ";
+        cin >> choice;
+        if (choice == 1) {
+            readFile(v);
+        } else if (choice == 2) {
+            printEntries(v, cout);
+        } else if (choice == 3) {
+            mergeSort(v, 0, v.size() - 1);
+            printEntries(v, cout);
+        } else if (choice == 4) {
+            sort(v.begin(), v.end(), isEarlier);
+            printEntries(v, cout);
+        } else if (choice == 5) {
+            fetchQuery(v, readEntry());
+        } else if (choice == 6) {
+            fetchQuery(v, readEntry());
+        } else if (choice == 7) {
+            cout << "Exiting..." << endl;
+        } else {
+            cout << "Invalid choice" << endl;
+        }
+    } while (choice != 7);
+}
 
 
 
-
-
+// Main
 int main() {
-  std::cout << "Hello World!\n";
+    vector<Entry> v;
+    menu(v);
+    return 0;
 }
