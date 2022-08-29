@@ -128,6 +128,63 @@ string toLowerCase(string s) {
     return lowerCase;
 }
 
+string monthFormat(string txt){
+    string month = "";
+    for (int i = 0; i < txt.length(); i++) {
+        if (txt[i] == ' ') {
+            break;
+        }
+        month += txt[i];
+    }
+    return month;
+}
+
+// Sorting algorithm
+
+template <class T>
+
+void merge(vector<T>& v, int l, int m, int r) {
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    vector<T> L(n1), R(n2);
+    for (i = 0; i < n1; i++)
+        L[i] = v[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = v[m + 1+ j];
+    i = 0; j = 0; k = l;
+    while (i < n1 && j < n2) {
+        if (isEarlier(L[i], R[j])) {
+            v[k] = L[i];
+            i++;
+        } else {
+            v[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    while (i < n1) {
+        v[k] = L[i];
+        i++;
+        k++;
+    }
+    while (j < n2) {
+        v[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(vector<Entry>& v, int l, int r) {
+    if (l < r) {
+        int m = l+(r-l)/2;
+        mergeSort(v, l, m);
+        mergeSort(v, m+1, r);
+        merge(v, l, m, r);
+    }
+}
+
+
 
 
 
