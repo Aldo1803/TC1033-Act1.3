@@ -384,16 +384,16 @@ void fetchQuery(vector<Registry> &list) {
     cout << "Ingresa las primeras 3 letras del mes inicial >";
     cin >> lowerMonth;
     lowerMonth = monthFormater(lowerMonth);
-    cout << "Ingresa el dia del mes inicial >";
+    cout << "Ingresa el dia inicial del mes >";
     while (!(cin >> lowerDay)) {
-      cout << endl << "ERROR: INVALID INPUT" << endl << endl;
-      cout << endl << "Ingresa el dia del mes inicial >";
+      cout << endl << "OPCION NO VALIDA" << endl << endl;
+      cout << endl << "Ingresa el dia inicial del mes >";
       cin.clear();
       cin.ignore(123, '\n');
     }
     cout << "Ingresa la hora >";
     while (!(cin >> inputHourLower)) {
-      cout << endl << "ERROR: INVALID INPUT" << endl << endl;
+      cout << endl << "OPCION NO VALIDA" << endl << endl;
       cout << endl << "Ingresa la hora >";
       cin.clear();
       cin.ignore(123, '\n');
@@ -402,16 +402,16 @@ void fetchQuery(vector<Registry> &list) {
     cout << endl << "Ingresa las primeras 3 letras del mes final >";
     cin >> upperM;
     upperM = monthFormater(upperM);
-    cout << "Ingresa el dia del mes final >";
+    cout << "Ingresa el dia final del mes >";
     while (!(cin >> upperDay)) {
-      cout << endl << "ERROR: INVALID INPUT" << endl << endl;
-      cout << "Ingresa el dia del mes final >";
+      cout << endl << "OPCION NO VALIDA" << endl << endl;
+      cout << "Ingresa el dia final del mes >";
       cin.clear();
       cin.ignore(123, '\n');
     }
     cout << "Ingresa la hora >";
     while (!(cin >> inputHourUpper)) {
-      cout << endl << "ERROR: INVALID INPUT" << endl << endl;
+      cout << endl << "OPCION NO VALIDA" << endl << endl;
       cout << "Ingresa la hora >";
       cin.clear();
       cin.ignore(123, '\n');
@@ -419,26 +419,22 @@ void fetchQuery(vector<Registry> &list) {
 
     if (months.find(lowerMonth) == months.end() &&
         months.find(upperM) == months.end()) {
-      cout << endl << "INVALID INPUT" << endl << endl;
+      cout << endl << "OPCION NO VALIDA" << endl << endl;
     } else {
       if (months[lowerMonth] <= months[upperM]) {
         if ((lowerDay > 0 && lowerDay < 31) ||
             (upperDay > 0 && lowerDay < 31)) {
           continues = true;
         } else {
-          cout << endl
-               << "INVALID INPUT, VERIFY MONTH AND DESIRED DATES" << endl
-               << endl;
+          cout << endl << "REVISE SU SELECCION" << endl << endl;
         }
       } else {
-        cout << endl
-             << "INVALID INPUT, VERIFY MONTH AND DESIRED DATES" << endl
-             << endl;
+        cout << endl << "REVISE SU SELECCION" << endl << endl;
       }
     }
   }
 
-  cout << endl << "Would you like to save the result on a file (yes/no) >";
+  cout << endl << "Guardar los resultados (si/no) >";
   cin >> save;
 
   save = toLowerCase(save);
@@ -458,14 +454,13 @@ void fetchQuery(vector<Registry> &list) {
 
       cout << fetched << endl;
 
-      if (save == "yes") {
+      if (save == "si") {
         ofstream out(str + ".txt");
         out << fetched;
         out.close();
       }
     } else {
-      cout << "INTRODUZCA UN RANGO VALIDO" << endl
-           << endl;
+      cout << "INTRODUZCA UN RANGO VALIDO" << endl << endl;
     }
   } catch (const exception &e) {
     cout << "ERROR" << endl << endl;
@@ -479,10 +474,10 @@ void menu(vector<Registry> list) {
   cout << endl;
 
   cout << endl
-       << "EXITO: " << list.size() << " Las entradas se han cargado " << endl
+       << "EXITO: " << list.size() << " registros cargados " << endl
        << endl;
-  cout << "REGISTROS: (" << list[0].month << " - " << list[list.size() - 1].month
-       << ")" << endl
+  cout << "REGISTROS: (" << list[0].month << " - "
+       << list[list.size() - 1].month << ")" << endl
        << endl;
   ;
 
@@ -525,9 +520,7 @@ void menu(vector<Registry> list) {
   }
   cout << endl;
   ;
-  cout << endl
-       << "FAILED LOGIN REGISTRY | TERMINATED SUCCESSFULLY" << endl
-       << endl;
+  cout << endl << "REGISTRO FALLIDO" << endl << endl;
   ;
 }
 
@@ -542,14 +535,13 @@ int main() {
     string line;
     vector<string> words;
     vector<string> time;
-    string errorString = ""; 
+    string errorString = "";
 
     int i = 0;
-    while (getline(file,
-                   line)) {
+    while (getline(file, line)) {
       words = split(line, " ");
-      
-      Registry entry; 
+
+      Registry entry;
       entry.month = words[0];
       entry.day = stoi(words[1]);
       time = split(words[2], ":");
@@ -557,8 +549,7 @@ int main() {
       entry.minute = stoi(time[1]);
       entry.second = stoi(time[2]);
       entry.ip = words[3];
-      for (int i = 4; i < words.size();
-           i++) { 
+      for (int i = 4; i < words.size(); i++) {
         if (i != 4 && i != words.size()) {
           errorString = errorString + " " + words[i];
         } else {
@@ -567,7 +558,7 @@ int main() {
       }
 
       entry.error = errorString;
-      entries.push_back(entry); 
+      entries.push_back(entry);
       errorString = "";
       words.clear();
       time.clear();
