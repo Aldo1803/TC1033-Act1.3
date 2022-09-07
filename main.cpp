@@ -1,4 +1,4 @@
-//Juan Carlos Garfias Tovar, A01652138
+
 #include <iostream>
 #include <fstream>
 #include <string>
